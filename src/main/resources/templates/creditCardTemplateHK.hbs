@@ -1,0 +1,104 @@
+{
+"id"  :"{{creditCard.id}}",
+"locale" : "{{creditCard.locale}}",
+"name" :"{{creditCard.name}}",
+"logo" :
+    {{#each creditCard.provider.providerInfo}}
+        {{#isIn typeValue filter="company_logo"}}
+            "{{this.value}}"
+        {{/isIn}}
+    {{~/each}},
+"company" : {
+ "name" : "{{creditCard.provider.name}}",
+ "logo" :
+   {{#each creditCard.provider.providerInfo}}
+       {{#isIn typeValue filter="company_logo"}}
+           "{{this.value}}"
+       {{/isIn}}
+   {{~/each}}
+},
+"applyLink" :
+{{#each creditCard.links}}
+    {{#isIn typeValue filter="product_link"}}
+        "{{url}}"
+    {{/isIn}}
+{{/each}},
+"benefits" : {
+"goodPoints" : [
+{{#each sortedBenefits}}
+    {{#contains typeValue keyword="keyBenefit"}}
+        {{#if description }}
+        "{{description}}",
+        {{/if}}
+    {{/contains}}
+{{~/each}}
+],
+"negativePoints" : [
+{{#each creditCard.benefits}}
+    {{#contains typeValue keyword="beAware"}}
+        {{#if description }}
+            "{{description}}",
+        {{/if}}
+    {{/contains}}
+{{~/each}}
+]
+},
+"promotions":[
+{{#each creditCard.promotions}}
+    {{#isIn typeValue filter="welcomeGift, promoExpiry, proHasOnlineCondition"}}
+        {"type": "{{this.typeValue}}",
+        "value": "{{this.title}}",
+        "description": "{{this.description}}",
+        },
+    {{/isIn}}
+{{~/each}}
+],
+"cashBack":{
+{{#each creditCard.rewards}}
+    {{#contains typeValue keyword="cashback"}}
+    "{{this.typeValue}}" :
+        {"type": "{{this.typeValue}}",
+        "value": "{{this.value}}",
+        "description": "{{this.description}}"
+        },
+    {{/contains}}
+{{~/each}}
+},
+"airMiles":{
+{{#each creditCard.rewards}}
+    {{#contains typeValue keyword="airMiles, times"}}
+        "{{this.typeValue}}" :
+        {"type": "{{this.typeValue}}",
+        "value": "{{this.value}}",
+        "description": "{{this.description}}"
+        },
+    {{/contains}}
+{{~/each}}
+},
+"fees":{
+{{#each creditCard.fees}}
+    "{{this.typeValue}}" :
+     {"value": "{{this.amount}}",
+      "description": "{{this.description}}"
+     },
+{{~/each}}
+},
+"eligibilities":{
+{{#each creditCard.eligibility}}
+    "{{this.typeValue}}" :
+    {"minimum": "{{this.minimum}}",
+    "maximum": "{{this.maximum}}",
+    "description": "{{this.description}}"
+    },
+{{~/each}}
+},
+"bestDeals":[
+{{#each creditCard.promotions}}
+    {{#contains typeValue keyword="bestDeals"}}
+        {"{{this.typeValue}}" :
+            "{{description}}"
+        },
+    {{/contains}}
+{{~/each}}
+]
+}
