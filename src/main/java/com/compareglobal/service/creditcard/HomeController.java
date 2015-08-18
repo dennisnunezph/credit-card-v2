@@ -37,11 +37,13 @@ public class HomeController {
     private final CompareService compareService;
 
     @Autowired
-    private Handlebars handlebars;
+    private final Handlebars handlebars;
 
     @Inject
-    public HomeController(CompareService compareService) {
+    public HomeController(CompareService compareService,
+                          Handlebars handlebars) {
         this.compareService = compareService;
+        this.handlebars = handlebars;
     }
 
     @RequestMapping(value = "/compare", method = RequestMethod.GET, headers = DEFAULT_CONTENT_TYPE_CHARSET)
